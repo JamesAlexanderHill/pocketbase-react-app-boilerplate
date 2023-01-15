@@ -1,0 +1,1 @@
+export const FORM_TIMEOUT_SEC = 10;

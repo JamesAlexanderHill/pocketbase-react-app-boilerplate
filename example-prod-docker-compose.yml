@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  client:
+    build:
+      context: .
+      target: "prod"
+    environment:
+      - TAILWIND_MODE=watch
+    ports:
+      - "3000:3000"
+  pocketbase:
+    image: ghcr.io/muchobien/pocketbase:latest
+    container_name: pocketbase
+    restart: unless-stopped
+    command:
+      - --encryptionEnv
+      - ENCRYPTION
+    environment:
+      ENCRYPTION: SAMPLE_SECRET # CHANGE THIS
+    ports:
+      - "5000:8090"
+    volumes:
+      - ./.pocketbase/pb_data:/pb_data
+      - ./.pocketbase/pb_public:/pb_public
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 5

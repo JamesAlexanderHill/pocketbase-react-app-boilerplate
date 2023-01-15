@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  client:
+    container_name: react_client
+    image: ghcr.io/jamesalexanderhill/pocketbase-react-app-boilerplate:dev
+    build:
+      context: .
+      target: "dev"
+    volumes:
+      - ./vite.config.js:/app/vite.config.js
+      - ./postcss.config.cjs:/app/postcss.config.cjs
+      - ./tailwind.config.cjs:/app/tailwind.config.cjs
+      - ./index.html:/app/index.html
+      - ./src:/app/src
+      - ./public:/app/public
+    ports:
+      - "3000:3000"
+    networks:
+      - calendar_app
+  pocketbase:
+    image: ghcr.io/muchobien/pocketbase:latest
+    container_name: pocketbase
+    ports:
+      - "5000:8090"
+    volumes:
+      - ./.pocketbase/pb_data:/pb_data
+      - ./.pocketbase/pb_public:/pb_public
+    networks:
+      - calendar_app
+networks:
+  calendar_app:
+    name: calendar_app
