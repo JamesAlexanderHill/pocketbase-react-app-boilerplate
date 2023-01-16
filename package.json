@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "docker-start": "docker compose up -d",
     "docker-stop": "docker compose down",
-    "docker-build": "docker build -t ghcr.io/jamesalexanderhill/pocketbase-react-app-boilerplate:latest -t ghcr.io/jamesalexanderhill/pocketbase-react-app-boilerplate:%npm_package_version% --target prod --progress=plain --no-cache ."
+    "docker-build": "docker build -t ghcr.io/jamesalexanderhill/pocketbase-react-app-boilerplate:latest -t ghcr.io/jamesalexanderhill/pocketbase-react-app-boilerplate:%npm_package_version% --target prod ."
   },
   "dependencies": {
     "@headlessui/react": "^1.7.7",
