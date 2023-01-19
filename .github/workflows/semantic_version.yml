@@ -1,5 +1,5 @@
 name: Version NPM package
-on:
+run-name: (${{ inputs.release-type }}) NPM version bump
   workflow_dispatch:
     inputs:
       release-type:
@@ -33,5 +33,5 @@ jobs:
       - name: Commit NPM version changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: v${{ steps.package-version.outputs.current-version}}
+          commit_message: v${{ steps.package-version.outputs.current-version }}
           file_pattern: 'package*.json'
