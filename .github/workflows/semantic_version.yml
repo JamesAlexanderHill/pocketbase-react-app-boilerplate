@@ -1,5 +1,7 @@
 name: Version NPM package
 run-name: (${{ inputs.release-type }}) NPM version bump
+
+on:
   workflow_dispatch:
     inputs:
       release-type:
@@ -9,6 +11,7 @@ run-name: (${{ inputs.release-type }}) NPM version bump
         - patch
         - minor
         - major
+
 jobs:
   upgrade-packages:
     name: Upgrade packages
