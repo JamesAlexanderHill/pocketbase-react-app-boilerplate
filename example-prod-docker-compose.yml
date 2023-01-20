@@ -1,13 +1,17 @@
 version: "3.9"
 services:
   client:
-    build:
-      context: .
-      target: "prod"
-    environment:
-      - TAILWIND_MODE=watch
+    image: ghcr.io/jamesalexanderhill/pocketbase-react-app-boilerplate:latest
+    container_name: react-client
     ports:
-      - "3000:3000"
+      - "${APP_PORT}:${APP_PORT}"
+    networks:
+      - "hestia"
+    environment:
+      - VIRTUAL_HOST=${APP_URL}
+      - VIRTUAL_PORT=${APP_PORT}
+      - LETSENCRYPT_HOST=${APP_URL}
+      - VITE_POCKETBASE_URL=https://pocketbase:8090
   pocketbase:
     image: ghcr.io/muchobien/pocketbase:latest
     container_name: pocketbase
@@ -16,9 +20,14 @@ services:
       - --encryptionEnv
       - ENCRYPTION
     environment:
-      ENCRYPTION: SAMPLE_SECRET # CHANGE THIS
+      - ENCRYPTION=${PB_ENCRYPTION}
+      - VIRTUAL_HOST=${PB_URL}
+      - VIRTUAL_PORT=8090
+      - LETSENCRYPT_HOST=${PB_URL}
+    networks:
+      - "hestia"
     ports:
-      - "5000:8090"
+      - "8090:8090"
     volumes:
       - ./.pocketbase/pb_data:/pb_data
       - ./.pocketbase/pb_public:/pb_public
@@ -27,3 +36,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+networks:
+  hestia: # you need to create this network on your VPS
+    external: true

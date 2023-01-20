@@ -3,7 +3,7 @@ import PocketBase from 'pocketbase';
 import {useMutation} from 'react-query';
 import noop from 'lodash/noop';
 
-const pb = new PocketBase('http://localhost:5000');
+const pb = new PocketBase(import.meta.env.VITE_POCKETBASE_URL);
 
 export const runIfUserExists = (func) => {
     console.log('runIfUserExists', {user: pb.authStore.isValid, func})

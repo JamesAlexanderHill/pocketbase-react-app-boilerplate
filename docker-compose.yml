@@ -14,14 +14,16 @@ services:
       - ./src:/app/src
       - ./public:/app/public
     ports:
-      - "3000:3000"
+      - "${APP_PORT}:${APP_PORT}"
     networks:
       - calendar_app
+    environment:
+      - VITE_POCKETBASE_URL=https://localhost:8090
   pocketbase:
     image: ghcr.io/muchobien/pocketbase:latest
     container_name: pocketbase
     ports:
-      - "5000:8090"
+      - "8090:8090"
     volumes:
       - ./.pocketbase/pb_data:/pb_data
       - ./.pocketbase/pb_public:/pb_public
